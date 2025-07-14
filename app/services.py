@@ -3,6 +3,8 @@ from fastapi import UploadFile
 from sqlalchemy.orm import Session
 from app import models
 
+
+  
 async def process_csv(file: UploadFile, db: Session):
   try:
     df = pd.read_csv(file.file)
@@ -39,10 +41,15 @@ def get_grid_data(db: Session):
 
 
 def assign_player_to_team(team_name: str, player_id: int, db: Session):
+  VALID_TEAMS = ["Time A", "Time B", "Time C", "Time D", "Time E", "Time F", "Time G", "Time H"]
   try:
     player = db.query(models.Player).filter(models.Player.id == player_id).first()
 
     if player.drafted_by is None:
+
+      if team_name not in VALID_TEAMS:
+          return {"error": f"Time '{team_name}' não é um time permitido."}
+
       player.drafted_by = team_name
       db.commit()
       return {"message": f"Player {player.name} drafted by {team_name}"}
@@ -50,7 +57,7 @@ def assign_player_to_team(team_name: str, player_id: int, db: Session):
       return {"message": f"Player {player.name} is already drafted by {player.drafted_by}"}
     
   except Exception as e:
-    return(e)
+    return(e) 
 
 
 def get_teams(db: Session):
@@ -71,3 +78,14 @@ def get_teams(db: Session):
     })
 
   return teams
+
+
+def reset_draft(db: Session):
+    try:
+        players = db.query(models.Player).all()
+        for player in players:
+            player.drafted_by = None
+        db.commit()
+        return {"message": "Draft resetado com sucesso"}
+    except Exception as e:
+        return {"error": str(e)}
