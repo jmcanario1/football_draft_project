@@ -8,5 +8,11 @@ class Player(Base):
   name = Column(String(60), nullable=False)
   pot = Column(Integer, nullable=False)
   position = Column(Integer, nullable=False)
-  drafted_by = Column(String, nullable=True)
+  image = Column(String(255), nullable=True)
+  drafted_by = Column(String, foreign_key='teams.name', nullable=True)
 
+class Team(Base):
+  __tablename__ = 'teams'
+  id = Column(Integer, primary_key=True, index=True)
+  name = Column(String(60), nullable=False)
+  image = Column(String(255), nullable=True)

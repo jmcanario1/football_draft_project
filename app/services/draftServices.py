@@ -4,11 +4,9 @@ from sqlalchemy.orm import Session
 from app import models
 
 
-  
 async def process_csv(file: UploadFile, db: Session):
   try:
     df = pd.read_csv(file.file)
-
     db.query(models.Player).delete()
     db.commit()
 
