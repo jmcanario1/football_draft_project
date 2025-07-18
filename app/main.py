@@ -1,4 +1,5 @@
 from fastapi import FastAPI
+from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
 from app.routes.draftRoutes import router as draft_router
 from app.routes.playerRoutes import router as player_router
@@ -20,3 +21,5 @@ app.add_middleware(
 app.include_router(draft_router)
 app.include_router(player_router)
 app.include_router(team_router)
+
+app.mount("/images", StaticFiles(directory="images"), name="images")

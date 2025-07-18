@@ -22,6 +22,6 @@ def get_player(player_id: int, db: Session = Depends(get_db)):
 async def delete_player(player_id: int, db: Session = Depends(get_db)):
   return await playerServices.delete_player(player_id, db)
 
-@router.post("/upload-image/{player_id}")
+@router.post("/upload-player-image/{player_id}")
 def upload_image(player_id: int, file: UploadFile = File(...), db: Session = Depends(get_db)):
     return playerServices.upload_player_image(player_id, file, db)

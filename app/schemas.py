@@ -3,7 +3,7 @@ from pydantic import BaseModel
 class PlayerCreate(BaseModel):
   name: str
   pot: int
-  position: int
+  position: str
   image: str = None
 
 class TeamCreate(BaseModel):

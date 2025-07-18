@@ -23,5 +23,5 @@ def get_teams(db: Session = Depends(get_db)):
     return draftServices.get_teams(db)
 
 @router.post("/reset-draft")
-def reset_draft_endpoint(db: Session = Depends(get_db)):
+def reset_draft(db: Session = Depends(get_db)):
     return draftServices.reset_draft(db)
