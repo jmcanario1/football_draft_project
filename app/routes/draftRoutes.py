@@ -18,10 +18,6 @@ def get_grid(db: Session = Depends(get_db)):
 def draft_player(payload: DraftRequest, db: Session = Depends(get_db)):
   return draftServices.assign_player_to_team(payload.team_name, payload.player_id, db)
 
-@router.get("/teams")
-def get_teams(db: Session = Depends(get_db)):
-    return draftServices.get_teams(db)
-
 @router.post("/reset-draft")
 def reset_draft(db: Session = Depends(get_db)):
     return draftServices.reset_draft(db)

@@ -2,7 +2,7 @@ from fastapi import APIRouter, UploadFile, File, Depends
 from sqlalchemy.orm import Session
 from app.services import teamServices
 from database import get_db
-from app.schemas import TeamCreate
+from app.schemas import TeamCreate, TeamResponse
 
 
 router = APIRouter(
@@ -17,6 +17,10 @@ def create_team(team: TeamCreate, db: Session = Depends(get_db)):
 @router.get("/get-team/{team_id}")
 def get_team(team_id: int, db: Session = Depends(get_db)):
   return teamServices.get_team(team_id, db)
+
+@router.get("/get-teams", response_model=list[TeamResponse])
+def get_teams(db: Session = Depends(get_db)):
+  return teamServices.get_teams(db)
 
 @router.delete("/delete-team/{team_id}")
 def delete_team(team_id: int, db: Session = Depends(get_db)):

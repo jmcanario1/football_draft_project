@@ -27,6 +27,17 @@ def get_team(team_id: int, db: Session):
   return {"error": "Team not found"}
 
 
+def get_teams(db: Session):
+  teams = db.query(models.Team).all()
+  if teams:
+    return [{
+      "id": team.id,
+      "name": team.name,
+      "image": team.image
+    } for team in teams]
+  return {"error": "Team not found"}
+
+
 async def delete_team(team_id: int, db: Session):
   team = db.query(models.Team).filter(models.Team.id == team_id).first()
   if team:
